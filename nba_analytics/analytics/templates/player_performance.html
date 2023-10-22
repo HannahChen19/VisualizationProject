@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NBA Career Duration Visualization</title>
+    <!--<link rel="stylesheet" type="text/css" href="/nba_analytics/analytics/templates/css/default.css">-->
+    <style>
+        /* Style for the small blocks in the upper part */
+        .upper-part {
+            display: flex;
+            justify-content: space-between;
+        }
+        .upper-block {
+            width: calc(10% - 10px); /* Distribute width evenly with some margin */
+            padding: 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            text-align: center;
+        }
+        .upper-block.active {
+            background-color: rgb(214, 214, 214);
+            /*background-color: gray;*/ /* Highlighted block */
+        }
+
+        /* Style for the chart container */
+        .chart {
+            margin-top: 20px;
+            width: 80%; /* Adjust the width as needed */
+            margin: 0 auto; /* Center the chart container */
+        }
+
+        /* Style for the "Change View" button */
+        #change-view-button {
+            background-color: #147ded; /* Set the background color */
+            color: white; /* Set the text color */
+            padding: 10px 20px; /* Add some padding */
+            border: none; /* Remove the border */
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+        }
+    </style>
+</head>
+<body>
+    <div class="upper-part">
+        <div class="upper-block" onclick="window.location.href='default';">
+            Player Career Duration Distribution
+        </div>
+        <div class="upper-block active" onclick="window.location.href='#';">
+            Player Performance Analysis
+        </div>
+        <div class="upper-block" onclick="window.location.href='shooting_performance';">
+            Shooting Performance Analysis
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Three-Point Shooting Analysis
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Free-Throw Shooting Analysis
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Rebounding Analysis
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Playmaking Analysis
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Turnover Analysis
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Player Performance vs. Career Duration
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Impact of Shooting on Career Duration
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Role of Rebounding in Career Duration
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Defensive Abilities and Career Length
+        </div>
+        <div class="upper-block" onclick="window.location.href='#';">
+            Turnovers and Career Duration
+        </div>
+    </div>
+    <div class="chart">
+        <h1>Player Performance Analysis</h1>
+        <!--<div id="chart-container">
+            <canvas id="career-duration-histogram"></canvas>
+        </div>-->
+        <div id="plot">{{ plot_div|safe }}</div>
+
+        <div id="plot-horizontal" style="display: none;">{{ plot_div_horizontal|safe }}</div>
+        <button id="change-view-button" onclick="changeView()">Change View</button>
+
+    </div>
+    <!--<script src="/nba_analytics/analytics/templates/js/default.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        var isVertical = true;
+
+        function changeView() {
+            if (isVertical) {
+                document.getElementById("plot").style.display = "none";
+                document.getElementById("plot-horizontal").style.display = "block";
+            } else {
+                document.getElementById("plot").style.display = "block";
+                document.getElementById("plot-horizontal").style.display = "none";
+            }
+            isVertical = !isVertical;
+        }
+    </script>
+</body>
+</html>

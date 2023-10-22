@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error Page</title>
+    <style>
+        /* Add custom styles for your error page here */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .error-container {
+            margin: 10% auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Error</h1>
+        <p>An error occurred: {{ error_message }}</p>
+    </div>
+</body>
+</html>
