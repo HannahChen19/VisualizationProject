@@ -1,9 +1,12 @@
 # analytics/urls.py
 from django.urls import path
 #from .views import upload_csv
+'''
 from .views import default_view
 from .views import player_performance_view
 from .views import shooting_performance_view
+'''
+from .views import generate_chart
 #from .views import career_length_distribution
 #from .views import data_story
 #from .views import player_list
@@ -12,10 +15,14 @@ from .views import shooting_performance_view
 
 urlpatterns = [
     #path('upload/', upload_csv, name='upload_csv'),
-    path('', default_view, name='default_view'),
-    path('default', default_view, name='default_view'),
-    path('player_performance', player_performance_view, name='player_performance_view'),
-    path('shooting_performance', shooting_performance_view, name='shooting_performance_view'),
+    
+    #path('', default_view, name='default_view'),
+    
+    #path('default', default_view, name='default_view'),
+    #path('player_performance', player_performance_view, name='player_performance_view'),
+    #path('shooting_performance', shooting_performance_view, name='shooting_performance_view'),
+    path('', generate_chart, name='generate_chart'),
+    path('generate_chart/<str:query>/', generate_chart, name='generate_chart'),
     #path('career_length_distribution/', career_length_distribution, name='career_length_distribution'),
     #path('data_story/', data_story, name='data_story'),
     #path('players/', player_list, name='player_list'),
