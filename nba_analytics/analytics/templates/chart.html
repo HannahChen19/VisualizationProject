@@ -1,0 +1,14 @@
+<!-- templates/chart.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Chart</title>
+</head>
+<body>
+    {% if chart_data %}
+    <img src="data:image/png;base64,{{ chart_data }}">
+    {% else %}
+    <p>No chart data available.</p>
+    {% endif %}
+</body>
+</html>

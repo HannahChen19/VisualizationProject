@@ -22,6 +22,7 @@ urlpatterns = [
     #path('player_performance', player_performance_view, name='player_performance_view'),
     #path('shooting_performance', shooting_performance_view, name='shooting_performance_view'),
     path('', generate_chart, name='generate_chart'),
+    path('generate_chart', generate_chart, name='generate_chart'),
     path('generate_chart/<str:query>/', generate_chart, name='generate_chart'),
     #path('career_length_distribution/', career_length_distribution, name='career_length_distribution'),
     #path('data_story/', data_story, name='data_story'),

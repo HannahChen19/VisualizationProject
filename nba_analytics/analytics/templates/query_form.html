@@ -1,0 +1,15 @@
+<!-- templates/query_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ask Data</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <label for="query">Enter your question:</label>
+        <input type="text" id="query" name="query">
+        <input type="submit" value="Generate Chart">
+    </form>
+</body>
+</html>
