@@ -75,6 +75,9 @@ def generate_chart(request):
 
         group_by_column = None  # Initialize group_by_column to None
 
+        x_axis_label = None
+        y_axis_label = None
+
         # Iterate through the tokens in the user's query
         for i, token in enumerate(tokens):
             token_text = token.text.lower()
@@ -266,8 +269,8 @@ def generate_chart(request):
                             
 
                 
-                print("COMPARED COLUMNS: ", compared_columns)
-                print("DF Filtered Columns: ", df_filtered_columns)
+                #print("COMPARED COLUMNS: ", compared_columns)
+                #print("DF Filtered Columns: ", df_filtered_columns)
 
                 # Create a bar chart if compared_columns is not None
                 if compared_columns:
@@ -340,6 +343,89 @@ def generate_chart(request):
         else:
             # If no columns are selected for the chart, generate an HTML table
             table_html = df.to_html(classes='table table-striped', index=False)
+
+        # Check for specific chart type specifications
+        if 'using pie chart' in query:
+            chart_type = 'pie'
+        elif 'using line chart' in query:
+            chart_type = 'line'
+        elif 'using horizontal bar chart' in query:
+            chart_type = 'barh'
+        elif 'using vertical bar chart' in query:
+            chart_type = 'bar'
+
+        #token_text = token.text
+
+        #print(token)
+
+        if 'x-axis' in query:
+            words = query.split()
+            for p, word in enumerate(words):
+                if word.lower() == 'x-axis' and p + 1 < len(words):
+                    x_axis_label = words[p + 1]
+                    break
+        
+        if 'y-axis' in query:
+            words = query.split()
+            for p, word in enumerate(words):
+                if word.lower() == 'y-axis' and p + 1 < len(words):
+                    y_axis_label = words[p + 1]
+                    break
+
+        best_score = 0
+
+        # Check for the best fuzzy match between the token and keywords
+        for keyword, column_name in column_mapping.items():
+            x_score = fuzz.token_set_ratio(x_axis_label, keyword)  # Use token_set_ratio for improved matching
+            if x_score > best_score:
+                best_score = x_score
+                x_bestmatch = keyword
+
+        x_axis_label = column_mapping.get(x_bestmatch, None)
+
+        best_score = 0
+        # Check for the best fuzzy match between the token and keywords
+        for keyword, column_name in column_mapping.items():
+            y_score = fuzz.token_set_ratio(y_axis_label, keyword)  # Use token_set_ratio for improved matching
+            if y_score > best_score:
+                best_score = y_score
+                y_bestmatch = keyword
+
+            #print(y_axis_label + " " + keyword)
+        
+        y_axis_label = column_mapping.get(y_bestmatch, None)
+
+        #print(x_axis_label + " " + y_axis_label	)
+        # Create a chart based on user specifications
+        if x_axis_label and y_axis_label:
+            plt.figure()
+            if chart_type == 'bar':
+                plt.bar(df[x_axis_label], df[y_axis_label])
+                #plt.bar(df["gp"], df["pts"])
+                plt.xlabel(x_axis_label)
+                plt.ylabel(y_axis_label)
+            elif chart_type == 'barh':
+                plt.barh(df[x_axis_label], df[y_axis_label])
+                plt.xlabel(y_axis_label)
+                plt.ylabel(x_axis_label)
+            elif chart_type == 'pie':
+                # Generate a pie chart here
+                labels = df[x_axis_label]
+                sizes = df[y_axis_label]
+                plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+                plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+                plt.title('Pie Chart')
+                #pass
+            elif chart_type == 'line':
+                # Generate a line chart here
+                plt.plot(df[x_axis_label], df[y_axis_label], marker='o', linestyle='-')
+                plt.xlabel(x_axis_label)
+                plt.ylabel(y_axis_label)
+                plt.title('Line Chart')
+                #pass
+            else:
+                # Handle unsupported chart types
+                print(f"Unsupported chart type: {chart_type}")
 
 
         # Filter data based on specified conditions
